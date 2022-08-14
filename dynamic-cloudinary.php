@@ -17,7 +17,7 @@
 
 namespace DynamicCloudinary;
 
-define( 'DYNAMIC_CLOUDINARY_VERSION', '1.0.3' );
+define( 'DYNAMIC_CLOUDINARY_VERSION', '1.0.0' );
 define( 'DYNAMIC_CLOUDINARY_URL', plugin_dir_url( __FILE__ ) );
 define( 'DYNAMIC_CLOUDINARY_PATH', plugin_dir_path( __FILE__ ) );
 
