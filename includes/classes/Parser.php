@@ -67,10 +67,10 @@ class Parser {
 	 * @return boolean
 	 */
 	public function is_valid_asset( $url_or_path ) {
-		if ( 0 === strpos( $url_or_path, '/' ) ) {
-			if ( 0 === strpos( $url_or_path, '' ) ) {
-				return true;
-			}
+		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
+
+		if ( 0 === strpos( $url_or_path, $root_path ) ) {
+			return true;
 		} elseif ( 0 === strpos( $url_or_path, home_url() ) ) {
 			return true;
 		}
@@ -126,6 +126,8 @@ class Parser {
 	public function cloudinary_url( $url, $args = [] ) {
 		$settings = Settings::get_instance()->get_settings();
 
+		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
+
 		$args = wp_parse_args(
 			$args,
 			[
@@ -145,8 +147,8 @@ class Parser {
 
 		$cloudinary_url = 'https://res.cloudinary.com/' . $settings['cloud_name'] . '/image/upload/' . $mutations . '/' . $settings['auto_mapping_folder'];
 
-		if ( 0 === strpos( $url, '/' ) ) {
-
+		if ( 0 === strpos( $url, $root_path ) ) {
+			$url = preg_replace( '#^' . $root_path . '#', '/' . $cloudinary_url, $url );
 		} else {
 			$url = str_replace( home_url(), $cloudinary_url, $url );
 		}
