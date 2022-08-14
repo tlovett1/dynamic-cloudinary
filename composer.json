@@ -1,0 +1,22 @@
+{
+  "name": "tlovett1/dynamic-cloudinary",
+  "description": "Automatically serve all your images optimized from the cloud.",
+  "type": "wordpress-plugin",
+  "homepage": "https://github.com/tlovett1/dynamic-cloudinary",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "DynamicCloudinary\\": "includes/classes/"
+    }
+  },
+  "require-dev": {
+    "10up/phpcs-composer": "dev-master"
+  },
+  "scripts": {
+    "lint": "phpcs .",
+    "lint-fix": "phpcbf ."
+  }
+}
