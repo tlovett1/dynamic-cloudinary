@@ -120,7 +120,7 @@ class Parser {
 			$updated = false;
 
 			if ( $this->is_valid_asset( $src ) ) {
-				$img->setAttribute( 'src', $this->cloudinary_url( $src, $args ) );
+				$img->setAttribute( 'src', $this->get_cloudinary_url( $src, $args ) );
 
 				$updated = true;
 			}
@@ -159,7 +159,7 @@ class Parser {
 			$updated = false;
 
 			if ( $this->is_valid_asset( $srcset ) ) {
-				$source->setAttribute( 'srcset', $this->cloudinary_url( $srcset, $args ) );
+				$source->setAttribute( 'srcset', $this->get_cloudinary_url( $srcset, $args ) );
 
 				$updated = true;
 			}
@@ -191,7 +191,7 @@ class Parser {
 	 * @param array  $args Args for Cloudinary modifiers
 	 * @return string
 	 */
-	public function cloudinary_url( $url, $args = [] ) {
+	public function get_cloudinary_url( $url, $args = [] ) {
 		$original_url = $url;
 
 		$settings = Settings::get_instance()->get_settings();
