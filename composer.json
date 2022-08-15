@@ -6,7 +6,8 @@
   "license": "GPL-2.0-or-later",
   "require": {
     "php": ">=7.0",
-    "composer/installers": "~1.0"
+    "composer/installers": "~1.0",
+    "ivopetkov/html5-dom-document-php": "2.*"
   },
   "autoload": {
     "psr-4": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34944274e7a629d80707c3ee77398073",
+    "content-hash": "087dc052f92f0a2d3d17583160b9dc1b",
     "packages": [
         {
             "name": "composer/installers",
@@ -152,6 +152,47 @@
                 }
             ],
             "time": "2021-09-13T08:19:44+00:00"
+        },
+        {
+            "name": "ivopetkov/html5-dom-document-php",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ivopetkov/html5-dom-document-php.git",
+                "reference": "311fefc9707e610aed149b5d705897bb6de2ab2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivopetkov/html5-dom-document-php/zipball/311fefc9707e610aed149b5d705897bb6de2ab2c",
+                "reference": "311fefc9707e610aed149b5d705897bb6de2ab2c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": "7.0.*|7.1.*|7.2.*|7.3.*|7.4.*|8.0.*|8.1.*"
+            },
+            "require-dev": {
+                "ivopetkov/docs-generator": "0.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivo Petkov",
+                    "email": "ivo@ivopetkov.com",
+                    "homepage": "http://ivopetkov.com"
+                }
+            ],
+            "description": "HTML5 DOMDocument PHP library (extends DOMDocument)",
+            "time": "2022-04-26T07:04:02+00:00"
         }
     ],
     "packages-dev": [
