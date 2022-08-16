@@ -13,6 +13,8 @@
  * Domain Path:       /languages
  *
  * @package dynamic-cloudinary
+ *
+ * This plugin derives work from Auto Cloudinary: https://github.com/junaidbhura/auto-cloudinary
  */
 
 namespace DynamicCloudinary;

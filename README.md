@@ -12,6 +12,51 @@ This WordPress plugin proxies all images and videos on a page through [Cloudinar
 2. Upload and activate the WordPress plugin. Make sure you run `composer install`.
 3. Configure the plugin in the WordPress admin in `Settings > Dynamic Cloudinary`. For `Auto Mapping Folder`, I'd provide `folder-name` from the screenshot above.
 
+## Cloudinary API
+
+Cloudinary lets you [customize images and video](https://cloudinary.com/documentation/image_transformations) on the fly using their API. Dynamic Cloudinary supports many of these transformations. In order to add a transformation to an image, you can add a `data-` attribute to the element. For example, to modify the image crop you would add something like `data-crop="fill"` to the image element. To modify image opacity, you would add something like `data-opacity="50"` to the image element. Check out the full list of support transformations:
+
+```
+format
+angle
+aspect_ratio
+background
+border
+crop
+color
+dpr
+duration
+effect
+end_offset
+flags
+height
+overlay
+opacity
+quality
+radius
+start_offset
+named_transformation
+underlay
+video_codec
+width
+x
+y
+zoom
+audio_codec
+audio_frequency
+bit_rate
+color_space
+default_image
+delay
+density
+fetch_format
+gravity
+prefix
+page
+video_sampling
+progressive
+```
+
 ## Issues
 
 If you identify any errors or have an idea for improving the plugin, please [open an issue](https://github.com/tlovett1/dynamic-cloudinary/issues?state=open).

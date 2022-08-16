@@ -42,4 +42,3 @@ function get_allowed_file_extensions() {
 
 	return $allowed_extensions;
 }
-

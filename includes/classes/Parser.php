@@ -100,6 +100,28 @@ class Parser {
 	}
 
 	/**
+	 * Get transformations for a given HTML element node
+	 *
+	 * @param * $node HTML node
+	 * @return array
+	 */
+	public function get_transformations_from_node( $node ) {
+		$available_transformations = $this->get_allowed_cloudinary_transformations();
+
+		$transformations = [];
+
+		foreach ( $available_transformations as $key => $value ) {
+			$data = $node->getAttribute( 'data-' . $key );
+
+			if ( ! empty( $data ) ) {
+				$transformations[ $key ] = $data;
+			}
+		}
+
+		return $transformations;
+	}
+
+	/**
 	 * Parse and replace applicable assets
 	 *
 	 * @param string $html HTML code
@@ -133,6 +155,8 @@ class Parser {
 
 			if ( ! empty( $transformations ) ) {
 				$args['transformations'] = $transformations;
+			} else {
+				$args = $this->get_transformations_from_node( $img );
 			}
 
 			$updated = false;
@@ -179,6 +203,8 @@ class Parser {
 
 			if ( ! empty( $transformations ) ) {
 				$args['transformations'] = $transformations;
+			} else {
+				$args = $this->get_transformations_from_node( $source );
 			}
 
 			$updated = false;
@@ -218,8 +244,7 @@ class Parser {
 	/**
 	 * Replace URL with cloudinary version
 	 *
-	 * Args supports crop, width, height, and transformations. If transformations
-	 * is passed, it will override all other transformations
+	 * See supported transformations in `build_transformation_slug;
 	 *
 	 * @param string $url URL for asset
 	 * @param array  $args Args for Cloudinary modifiers
@@ -234,24 +259,17 @@ class Parser {
 
 		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
 
-		$transformations = 'f_auto';
-
 		$args = wp_parse_args(
 			$args,
 			[
-				'crop' => 'fill',
+				'format' => 'auto',
+				'crop'   => 'fill',
 			]
 		);
 
-		$transformations = 'c_' . $args['crop'];
+		$t = $this->build_transformation_slug( $args );
 
-		if ( ! empty( $args['width'] ) ) {
-			$transformations .= ',w_' . (int) $args['width'];
-		}
-
-		if ( ! empty( $args['height'] ) ) {
-			$transformations .= ',h_' . (int) $args['height'];
-		}
+		$transformations = $this->build_transformation_slug( $args );
 
 		if ( ! empty( $args['transformations'] ) ) {
 			$transformations = $args['transformations'];
@@ -277,4 +295,103 @@ class Parser {
 		return apply_filters( 'dc_cloudinary_url', $url, $original_url, $args );
 	}
 
+	/**
+	 * Check if the value is valid.
+	 *
+	 * Code copied and extended from https://github.com/junaidbhura/auto-cloudinary/blob/master/inc/class-core.php#L191
+	 *
+	 * @param string $key Value key
+	 * @param string $value Value
+	 * @return bool
+	 */
+	public function is_valid_value( $key = '', $value = '' ) {
+		if ( ( 'w' === $key || 'h' === $key ) && empty( $value ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Get allowed Cloudinary transformations
+	 *
+	 * @return array
+	 */
+	public function get_allowed_cloudinary_transformations() {
+		$cloudinary_params = [
+			'format'               => 'f',
+			'angle'                => 'a',
+			'aspect_ratio'         => 'ar',
+			'background'           => 'b',
+			'border'               => 'bo',
+			'crop'                 => 'c',
+			'color'                => 'co',
+			'dpr'                  => 'dpr',
+			'duration'             => 'du',
+			'effect'               => 'e',
+			'end_offset'           => 'eo',
+			'flags'                => 'fl',
+			'height'               => 'h',
+			'overlay'              => 'l',
+			'opacity'              => 'o',
+			'quality'              => 'q',
+			'radius'               => 'r',
+			'start_offset'         => 'so',
+			'named_transformation' => 't',
+			'underlay'             => 'u',
+			'video_codec'          => 'vc',
+			'width'                => 'w',
+			'x'                    => 'x',
+			'y'                    => 'y',
+			'zoom'                 => 'z',
+			'audio_codec'          => 'ac',
+			'audio_frequency'      => 'af',
+			'bit_rate'             => 'br',
+			'color_space'          => 'cs',
+			'default_image'        => 'd',
+			'delay'                => 'dl',
+			'density'              => 'dn',
+			'fetch_format'         => 'f',
+			'gravity'              => 'g',
+			'prefix'               => 'p',
+			'page'                 => 'pg',
+			'video_sampling'       => 'vs',
+			'progressive'          => 'fl_progressive',
+		];
+
+		return $cloudinary_params;
+	}
+
+	/**
+	 * Build a Cloudinary transformation slug from arguments.
+	 *
+	 * Code copied and extended from https://github.com/junaidbhura/auto-cloudinary/blob/master/inc/class-core.php#L191
+	 *
+	 * @param  array $args Transformation arguments
+	 * @return string
+	 */
+	public function build_transformation_slug( $args = array() ) {
+		if ( empty( $args ) ) {
+			return '';
+		}
+
+		$cloudinary_params = $this->get_allowed_cloudinary_transformations();
+
+		$slug = array();
+		foreach ( $args as $key => $value ) {
+			if ( array_key_exists( $key, $cloudinary_params ) && $this->is_valid_value( $cloudinary_params[ $key ], $value ) ) {
+				switch ( $key ) {
+					case 'progressive':
+						if ( true === $value ) {
+							$slug[] = $cloudinary_params[ $key ];
+						} else {
+							$slug[] = $cloudinary_params[ $key ] . ':' . $value;
+						}
+						break;
+					default:
+						$slug[] = $cloudinary_params[ $key ] . '_' . $value;
+				}
+			}
+		}
+		return implode( ',', $slug );
+	}
 }
