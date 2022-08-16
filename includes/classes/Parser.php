@@ -62,20 +62,32 @@ class Parser {
 	}
 
 	/**
-	 * Get type of asset. Only returns type
+	 * Get type of asset
 	 *
 	 * @param string $url_or_path URL or path
 	 * @return string
 	 */
-	public function is_valid_asset( $url_or_path ) {
+	public function get_asset_type( $url_or_path ) {
 		$extension = (string) pathinfo( wp_parse_url( $url_or_path, PHP_URL_PATH ), PATHINFO_EXTENSION );
 
 		$allowed_extensions = Utils\get_allowed_file_extensions();
 
-		if ( ! in_array( strtolower( $extension ), $allowed_extensions, true ) ) {
-			return false;
+		foreach ( $allowed_extensions as $type => $type_array ) {
+			if ( in_array( strtolower( $extension ), $type_array, true ) ) {
+				return $type;
+			}
 		}
 
+		return null;
+	}
+
+	/**
+	 * Make sure we can proxy this path through Cloudinary
+	 *
+	 * @param string $url_or_path URL or path
+	 * @return boolean
+	 */
+	public function is_proxable_path( $url_or_path ) {
 		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
 
 		if ( 0 === strpos( $url_or_path, $root_path ) ) {
@@ -88,7 +100,7 @@ class Parser {
 	}
 
 	/**
-	 * Parse and replace applicable images
+	 * Parse and replace applicable assets
 	 *
 	 * @param string $html HTML code
 	 * @return string
@@ -107,6 +119,8 @@ class Parser {
 			$width  = $img->getAttribute( 'width' );
 			$height = $img->getAttribute( 'height' );
 
+			$transformations = $img->getAttribute( 'data-transformations' );
+
 			$args = [];
 
 			if ( ! empty( $width ) ) {
@@ -117,9 +131,13 @@ class Parser {
 				$args['height'] = $height;
 			}
 
+			if ( ! empty( $transformations ) ) {
+				$args['transformations'] = $transformations;
+			}
+
 			$updated = false;
 
-			if ( $this->is_valid_asset( $src ) ) {
+			if ( 'image' === $this->get_asset_type( $src ) && $this->is_proxable_path( $src ) ) {
 				$img->setAttribute( 'src', $this->get_cloudinary_url( $src, $args ) );
 
 				$updated = true;
@@ -129,7 +147,7 @@ class Parser {
 				$srcset_tokens = explode( ' ', $srcset );
 
 				foreach ( $srcset_tokens as $token ) {
-					if ( $this->is_valid_asset( $token ) ) {
+					if ( 'image' === $this->get_asset_type( $token ) && $this->is_proxable_path( $token ) ) {
 						$srcset = str_replace( $token, $this->get_cloudinary_url( $token ), $srcset );
 
 						$img->setAttribute( 'srcset', $srcset );
@@ -153,13 +171,26 @@ class Parser {
 			$original_html = preg_replace( '#^(<source .*?>).*$#is', '$1', $source->outerHTML );
 
 			$srcset = $source->getAttribute( 'srcset' );
+			$src    = $source->getAttribute( 'src' );
+
+			$transformations = $source->getAttribute( 'data-transformations' );
 
 			$args = [];
 
+			if ( ! empty( $transformations ) ) {
+				$args['transformations'] = $transformations;
+			}
+
 			$updated = false;
 
-			if ( $this->is_valid_asset( $srcset ) ) {
+			if ( $this->get_asset_type( $srcset ) ) {
 				$source->setAttribute( 'srcset', $this->get_cloudinary_url( $srcset, $args ) );
+
+				$updated = true;
+			}
+
+			if ( $this->get_asset_type( $src ) ) {
+				$source->setAttribute( 'src', $this->get_cloudinary_url( $src, $args ) );
 
 				$updated = true;
 			}
@@ -187,6 +218,9 @@ class Parser {
 	/**
 	 * Replace URL with cloudinary version
 	 *
+	 * Args supports crop, width, height, and transformations. If transformations
+	 * is passed, it will override all other transformations
+	 *
 	 * @param string $url URL for asset
 	 * @param array  $args Args for Cloudinary modifiers
 	 * @return string
@@ -194,9 +228,13 @@ class Parser {
 	public function get_cloudinary_url( $url, $args = [] ) {
 		$original_url = $url;
 
+		$type = $this->get_asset_type( $url );
+
 		$settings = Settings::get_instance()->get_settings();
 
 		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
+
+		$transformations = 'f_auto';
 
 		$args = wp_parse_args(
 			$args,
@@ -205,17 +243,30 @@ class Parser {
 			]
 		);
 
-		$mutations = 'f_auto,c_' . $args['crop'];
+		$transformations = 'c_' . $args['crop'];
 
 		if ( ! empty( $args['width'] ) ) {
-			$mutations .= ',w_' . (int) $args['width'];
+			$transformations .= ',w_' . (int) $args['width'];
 		}
 
 		if ( ! empty( $args['height'] ) ) {
-			$mutations .= ',h_' . (int) $args['height'];
+			$transformations .= ',h_' . (int) $args['height'];
 		}
 
-		$cloudinary_url = apply_filters( 'dc_cloudinary_base_url', 'https://res.cloudinary.com/' ) . $settings['cloud_name'] . '/image/upload/' . $mutations . '/' . $settings['auto_mapping_folder'];
+		if ( ! empty( $args['transformations'] ) ) {
+			$transformations = $args['transformations'];
+		}
+
+		$transformations = apply_filters( 'dc_cloudinary_transformations', $transformations, $original_url, $args );
+
+		$transformations = ltrim( $transformations, ',' );
+		$transformations = rtrim( $transformations, '/' );
+
+		if ( ! empty( $transformations ) ) {
+			$transformations .= '/';
+		}
+
+		$cloudinary_url = apply_filters( 'dc_cloudinary_base_url', 'https://res.cloudinary.com/' ) . $settings['cloud_name'] . '/' . $type . '/upload/' . $transformations . $settings['auto_mapping_folder'];
 
 		if ( 0 === strpos( $url, $root_path ) ) {
 			$url = preg_replace( '#^' . $root_path . '#', '/' . $cloudinary_url, $url );
@@ -225,4 +276,5 @@ class Parser {
 
 		return apply_filters( 'dc_cloudinary_url', $url, $original_url, $args );
 	}
+
 }
