@@ -14,7 +14,7 @@ This WordPress plugin proxies all images and videos on a page through [Cloudinar
 
 ## Cloudinary API
 
-Cloudinary lets you [customize images and video](https://cloudinary.com/documentation/image_transformations) on the fly using their API. Dynamic Cloudinary supports many of these transformations. In order to add a transformation to an image, you can add a `data-` attribute to the element. For example, to modify the image crop you would add something like `data-crop="fill"` to the image element. To modify image opacity, you would add something like `data-opacity="50"` to the image element. Check out the full list of support transformations:
+Cloudinary lets you [customize images and video](https://cloudinary.com/documentation/image_transformations) on the fly using their API. Dynamic Cloudinary supports many of these transformations. In order to add a transformation to an image, you can add a `data-` attribute to the element. For example, to modify the image crop you would add something like `data-crop="fill"` to the image element. To modify image opacity, you would add something like `data-opacity="50"` to the image element. Check out the full list of supported transformations:
 
 ```
 format
