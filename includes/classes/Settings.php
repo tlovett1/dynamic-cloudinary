@@ -111,6 +111,7 @@ class Settings {
 		?>
 		<label for="dc_cloud_name">
 			<input id="dc_cloud_name" type="text" value="<?php echo esc_attr( $settings['cloud_name'] ); ?>" name="dc_settings[cloud_name]">
+			<p class="description"><?php _e( 'This can be found in your <a href="https://cloudinary.com/">Cloudinary</a> dashboard homepage.', 'dynamic-cloudinary' ); ?></p>
 		</label>
 		<?php
 	}
@@ -123,6 +124,7 @@ class Settings {
 		?>
 		<label for="dc_auto_mapping_folder">
 			<input id="dc_auto_mapping_folder" type="text" value="<?php echo esc_attr( $settings['auto_mapping_folder'] ); ?>" name="dc_settings[auto_mapping_folder]">
+			<p class="description"><?php _e( 'This can be found in your <a href="https://cloudinary.com/">Cloudinary</a> dashboard settings upload section.', 'dynamic-cloudinary' ); ?></p>
 		</label>
 		<?php
 	}
