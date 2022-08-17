@@ -2,3 +2,5 @@ node_modules
 vendor
 .DS_Store
 dist
+
+!vendor/ivopetkov
