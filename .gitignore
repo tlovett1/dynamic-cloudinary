@@ -4,3 +4,4 @@ vendor
 dist
 
 !vendor/ivopetkov
+!vendor/ivopetkov/*
