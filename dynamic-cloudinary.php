@@ -6,7 +6,7 @@
  * Version:           1.1.1
  * Requires PHP:      7.0
  * Author:            10up
- * Author URI:        https://10up.com
+ * Author URI:        https://taylorlovett.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       dynamic-cloudinary
