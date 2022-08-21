@@ -1,4 +1,4 @@
-=== Dynamic Cloudunary ===
+=== Dynamic Cloudinary ===
 Contributors: tlovett1
 Tags: images, cdn, cloudianry, core web vitals, cwv, performance, image optimization
 Requires at least: 5.5
@@ -26,6 +26,9 @@ See installation instructions on [Github](http://github.com/tlovett1/dynamic-clo
 For full documentation, questions, feature requests, and support concerning the Dynamic Cloudinary plugin, please refer to [Github](http://github.com/tlovett1/dynamic-cloudinary).
 
 == Changelog ==
+
+= 1.1.4 =
+* Typo fix
 
 = 1.1.3 =
 * Plugin released to .org
