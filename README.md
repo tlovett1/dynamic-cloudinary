@@ -8,7 +8,7 @@ This WordPress plugin proxies all images and videos on a page through [Cloudinar
 
 1. Create a [Cloudinary](https://cloudinary.com) account. Make sure you take name of your `Cloud Name`. Also, you need to set up your auto upload mapping. This can be done in the Settings > Upload section of your Cloudinary Dashboard. Take close note of the name you give your folder.
 
-![Auto mapping Cloudinary](./screenshots/auto-mapping.png)
+![Auto mapping Cloudinary](./.github/assets/auto-mapping.png)
 2. Upload and activate the WordPress plugin. Make sure you run `composer install`.
 3. Configure the plugin in the WordPress admin in `Settings > Dynamic Cloudinary`. For `Auto Mapping Folder`, I'd provide `folder-name` from the screenshot above.
 
