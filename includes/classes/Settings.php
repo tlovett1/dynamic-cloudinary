@@ -37,6 +37,24 @@ class Settings {
 	public function setup() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_init', [ $this, 'setup_fields_sections' ] );
+		add_filter( 'plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
+	}
+
+	/**
+	 * Add settings link to plugin table
+	 *
+	 * @param array  $plugin_actions Current actions
+	 * @param string $plugin_file Plugin file name
+	 * @return array
+	 */
+	public function plugin_action_links( $plugin_actions, $plugin_file ) {
+		$new_actions = [];
+
+		if ( basename( DYNAMIC_CLOUDINARY_PATH ) . '/dynamic-cloudinary.php' === $plugin_file ) {
+			$new_actions['dc_settings'] = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=dynamic-cloudinary-settings' ) ), esc_html__( 'Settings', 'dynamic-cloudinary' ) );
+		}
+
+		return array_merge( $new_actions, $plugin_actions );
 	}
 
 	/**
