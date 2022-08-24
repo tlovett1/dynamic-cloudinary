@@ -3,7 +3,7 @@ Contributors: tlovett1
 Tags: images, cdn, cloudinary, core web vitals, cwv, performance, image optimization
 Requires at least: 5.5
 Tested up to: 6.0
-Stable tag: 1.1.3
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ For full documentation, questions, feature requests, and support concerning the 
 
 == Changelog ==
 
-= 1.1.5 =
+= 1.1.6 =
 * Docs and plugin settings link
 
 = 1.1.4 =
