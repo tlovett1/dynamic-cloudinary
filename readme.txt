@@ -2,8 +2,8 @@
 Contributors: tlovett1
 Tags: images, cdn, cloudinary, core web vitals, cwv, performance, image optimization
 Requires at least: 5.5
-Tested up to: 6.0
-Stable tag: 1.1.6
+Tested up to: 6.1
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,9 @@ See installation instructions on [Github](http://github.com/tlovett1/dynamic-clo
 For full documentation, questions, feature requests, and support concerning the Dynamic Cloudinary plugin, please refer to [Github](http://github.com/tlovett1/dynamic-cloudinary).
 
 == Changelog ==
+
+= 1.1.7 =
+* Fix bug breaking relative/absolute urls
 
 = 1.1.6 =
 * Docs and plugin settings link

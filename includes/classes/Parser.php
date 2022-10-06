@@ -287,7 +287,7 @@ class Parser {
 		$cloudinary_url = apply_filters( 'dc_cloudinary_base_url', 'https://res.cloudinary.com/' ) . $settings['cloud_name'] . '/' . $type . '/upload/' . $transformations . $settings['auto_mapping_folder'];
 
 		if ( 0 === strpos( $url, $root_path ) ) {
-			$url = preg_replace( '#^' . $root_path . '#', '/' . $cloudinary_url, $url );
+			$url = preg_replace( '#^' . $root_path . '#', $cloudinary_url . '/', $url );
 		} else {
 			$url = str_replace( home_url(), $cloudinary_url, $url );
 		}
