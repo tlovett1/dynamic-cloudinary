@@ -92,7 +92,7 @@ class Parser {
 
 		$query_string = wp_parse_url( $url_or_path, PHP_URL_QUERY );
 
-		if ( -1 !== stripos( $query_string, 'bypass_cloudinary'  ) ) {
+		if ( preg_match(  '#bypass_cloudinary#i', $query_string  ) ) {
 			return false;
 		}
 
