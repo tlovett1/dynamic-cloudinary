@@ -90,6 +90,12 @@ class Parser {
 	public function is_proxable_path( $url_or_path ) {
 		$root_path = trailingslashit( wp_parse_url( home_url(), PHP_URL_PATH ) );
 
+		$query_string = wp_parse_url( $url_or_path, PHP_URL_QUERY );
+
+		if ( -1 !== stripos( $query_string, 'bypass_cloudinary'  ) ) {
+			return false;
+		}
+
 		if ( 0 === strpos( $url_or_path, $root_path ) ) {
 			return true;
 		} elseif ( 0 === strpos( $url_or_path, home_url() ) ) {

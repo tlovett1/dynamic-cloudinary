@@ -27,6 +27,9 @@ For full documentation, questions, feature requests, and support concerning the 
 
 == Changelog ==
 
+= 1.2.0 =
+* Skip images that have the ?bypass_cloudinary parameter
+
 = 1.1.7 =
 * Fix bug breaking relative/absolute urls
 
