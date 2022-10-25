@@ -26,7 +26,7 @@ define( 'DYNAMIC_CLOUDINARY_PATH', plugin_dir_path( __FILE__ ) );
 // Require Composer autoloader if it exists.
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
-} else {
+} elseif ( ! class_exists( Settings::class ) ) {
 	require_once __DIR__ . '/vendor/ivopetkov/html5-dom-document-php/autoload.php';
 
 	/**
