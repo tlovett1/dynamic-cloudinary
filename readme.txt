@@ -3,7 +3,7 @@ Contributors: tlovett1
 Tags: images, cdn, cloudinary, core web vitals, cwv, performance, image optimization
 Requires at least: 5.5
 Tested up to: 6.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ For full documentation, questions, feature requests, and support concerning the 
 
 == Changelog ==
 
-= 1.2.0 =
+= 1.2.1 =
 * Skip images that have the ?bypass_cloudinary parameter
 
 = 1.1.7 =
