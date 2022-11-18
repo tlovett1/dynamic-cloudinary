@@ -161,6 +161,8 @@ class Settings {
 		$settings = get_option( 'dc_settings', [] );
 		$settings = wp_parse_args( $settings, $defaults );
 
+		$settings = apply_filters( 'dc_settings', $settings );
+
 		return $settings;
 	}
 }
