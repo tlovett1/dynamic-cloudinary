@@ -57,7 +57,7 @@ video_sampling
 progressive
 ```
 
-You can also add `data-transformations-string` to any image or source element for manually specifying the translation string.
+You can also add `data-transformations-string` to any image or source element for manually specifying the transformation string.
 
 ## Known Issues
 
