@@ -3,8 +3,8 @@
  * Plugin Name:       Dynamic Cloudinary
  * Plugin URI:        https://github.com/tlovett1/dynamic-cloudinary
  * Description:       Automatically serve all your images optimized from the cloud.
- * Version:           1.2.2
- * Requires PHP:      7.0
+ * Version:           1.2.3
+ * Requires PHP:      7.4
  * Author:            Taylor Lovett
  * Author URI:        https://taylorlovett.com
  * License:           GPL v2 or later
@@ -19,7 +19,7 @@
 
 namespace DynamicCloudinary;
 
-define( 'DYNAMIC_CLOUDINARY_VERSION', '1.2.2' );
+define( 'DYNAMIC_CLOUDINARY_VERSION', '1.2.3' );
 define( 'DYNAMIC_CLOUDINARY_URL', plugin_dir_url( __FILE__ ) );
 define( 'DYNAMIC_CLOUDINARY_PATH', plugin_dir_path( __FILE__ ) );
 

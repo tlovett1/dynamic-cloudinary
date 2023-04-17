@@ -57,6 +57,12 @@ video_sampling
 progressive
 ```
 
+You can also add `data-transformations-string` to any image or source element for manually specifying the translation string.
+
+## Known Issues
+
+* Any HTML entities inside of an image or source element will prevent this plugin from replacing the URL e.g. having `&amp;` in an `alt` tag.
+
 ## Issues
 
 If you identify any errors or have an idea for improving the plugin, please [open an issue](https://github.com/tlovett1/dynamic-cloudinary/issues?state=open).

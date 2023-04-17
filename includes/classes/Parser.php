@@ -112,9 +112,27 @@ class Parser {
 	 * @return array
 	 */
 	public function get_transformations_from_node( $node ) {
+		$width                  = $node->getAttribute( 'width' );
+		$height                 = $node->getAttribute( 'height' );
+		$manual_transformations = $node->getAttribute( 'data-transformations-string' );
+
+		if ( ! empty( $manual_transformations ) ) {
+			return [
+				'transformations' => $manual_transformations,
+			];
+		}
+
 		$available_transformations = $this->get_allowed_cloudinary_transformations();
 
 		$transformations = [];
+
+		if ( ! empty( $width ) ) {
+			$transformations['width'] = $width;
+		}
+
+		if ( ! empty( $height ) ) {
+			$transformations['height'] = $height;
+		}
 
 		foreach ( $available_transformations as $key => $value ) {
 			$data = $node->getAttribute( 'data-' . $key );
@@ -144,26 +162,8 @@ class Parser {
 
 			$src    = $img->getAttribute( 'src' );
 			$srcset = $img->getAttribute( 'srcset' );
-			$width  = $img->getAttribute( 'width' );
-			$height = $img->getAttribute( 'height' );
 
-			$transformations = $img->getAttribute( 'data-transformations' );
-
-			$args = [];
-
-			if ( ! empty( $width ) ) {
-				$args['width'] = $width;
-			}
-
-			if ( ! empty( $height ) ) {
-				$args['height'] = $height;
-			}
-
-			if ( ! empty( $transformations ) ) {
-				$args['transformations'] = $transformations;
-			} else {
-				$args = $this->get_transformations_from_node( $img );
-			}
+			$args = $this->get_transformations_from_node( $img );
 
 			$updated = false;
 
@@ -203,15 +203,7 @@ class Parser {
 			$srcset = $source->getAttribute( 'srcset' );
 			$src    = $source->getAttribute( 'src' );
 
-			$transformations = $source->getAttribute( 'data-transformations' );
-
-			$args = [];
-
-			if ( ! empty( $transformations ) ) {
-				$args['transformations'] = $transformations;
-			} else {
-				$args = $this->get_transformations_from_node( $source );
-			}
+			$args = $this->get_transformations_from_node( $source );
 
 			$updated = false;
 
@@ -273,12 +265,10 @@ class Parser {
 			]
 		);
 
-		$t = $this->build_transformation_slug( $args );
-
-		$transformations = $this->build_transformation_slug( $args );
-
 		if ( ! empty( $args['transformations'] ) ) {
 			$transformations = $args['transformations'];
+		} else {
+			$transformations = $this->build_transformation_slug( $args );
 		}
 
 		$transformations = apply_filters( 'dc_cloudinary_transformations', $transformations, $original_url, $args );
