@@ -27,6 +27,9 @@ For full documentation, questions, feature requests, and support concerning the 
 
 == Changelog ==
 
+= 1.2.3 =
+* Better process transformation arguments
+
 = 1.2.1 =
 * Skip images that have the ?bypass_cloudinary parameter
 
