@@ -160,8 +160,13 @@ class Parser {
 		foreach ( $imgs as $img ) {
 			$original_html = $img->outerHTML;
 
-			$src    = $img->getAttribute( 'src' );
-			$srcset = $img->getAttribute( 'srcset' );
+			$exclude = $img->getAttribute( 'data-cloudinary-exclude' );
+			$src     = $img->getAttribute( 'src' );
+			$srcset  = $img->getAttribute( 'srcset' );
+
+			if ( ! empty( $exclude ) || apply_filters( 'dc_exclude_asset', false, $src, $srcset, $img ) ) {
+				continue;
+			}
 
 			$args = $this->get_transformations_from_node( $img );
 
@@ -200,8 +205,13 @@ class Parser {
 			// We have to do some weird regex because of unexpected HTML5Document results
 			$original_html = preg_replace( '#^(<source .*?>).*$#is', '$1', $source->outerHTML );
 
-			$srcset = $source->getAttribute( 'srcset' );
-			$src    = $source->getAttribute( 'src' );
+			$exclude = $source->getAttribute( 'data-cloudinary-exclude' );
+			$srcset  = $source->getAttribute( 'srcset' );
+			$src     = $source->getAttribute( 'src' );
+
+			if ( ! empty( $exclude ) || apply_filters( 'dc_exclude_asset', false, $src, $srcset, $source ) ) {
+				continue;
+			}
 
 			$args = $this->get_transformations_from_node( $source );
 

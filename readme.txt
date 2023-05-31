@@ -27,6 +27,9 @@ For full documentation, questions, feature requests, and support concerning the 
 
 == Changelog ==
 
+= 1.3.0 =
+* Add `dc_cloudinary_exclude` filter and support for `data-cloudinary-exclude` attribute. If either is provided, the asset will be excluded from Cloudinary parsing.
+
 = 1.2.3 =
 * Better process transformation arguments
 
